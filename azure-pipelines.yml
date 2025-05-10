@@ -14,7 +14,24 @@ variables:
 pool:
  name: 'azureagent'
 
+
 stages:
+- stage: SonarqubeSetup
+  displayName: SonarqubeSetup
+  jobs:
+  - job: SonarqubeSetup
+    displayName: SonarqubeSetup
+    steps:
+    - task: SonarQubePrepare@7
+      inputs:
+        SonarQube: 'sonarqube-connection'
+        scannerMode: 'cli'
+        configMode: 'manual'
+        cliProjectKey: 'my-flask-app'
+        cliProjectName: 'my-flask-app'
+        cliSources: '.'
+
+
 - stage: Build
   displayName: Build image
   jobs:
