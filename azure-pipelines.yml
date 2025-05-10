@@ -32,6 +32,17 @@ stages:
         cliSources: '.'
 
 
+- stage: SonarqubeRunCodeAnalysis
+  displayName: SonarqubeRunCodeAnalysis
+  jobs:
+  - job: SonarqubeRunCodeAnalysis
+    displayName: SonarqubeRunCodeAnalysis
+    steps:
+    - task: SonarQubeAnalyze@7
+      inputs:
+        jdkversion: 'JAVA_HOME'
+
+
 - stage: Build
   displayName: Build image
   jobs:
