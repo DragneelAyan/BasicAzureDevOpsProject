@@ -24,10 +24,11 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
+        containerRegistry: 'vmprojectacr'
+        repository: 'flask-app'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
 
 
 - stage: Push
@@ -41,5 +42,5 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'vmprojectacr'
-        repository: 'vmprojectacr/flask-app'
+        repository: 'flask-app'
         command: 'push'
