@@ -41,8 +41,6 @@ stages:
     displayName: SonarqubeRunCodeAnalysis
     steps:
     - task: SonarQubeAnalyze@7
-      inputs:
-        jdkversion: 'JAVA_HOME'
 
 
 - stage: Build
