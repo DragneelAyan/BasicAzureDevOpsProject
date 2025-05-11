@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: dragneelayanbasicazuredevopsproject 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dragneelayanbasicazuredevopsproject
+  template:
+    metadata:
+      labels:
+        app: dragneelayanbasicazuredevopsproject 
+    spec:
+      containers:
+        - name: dragneelayanbasicazuredevopsproject 
+          image: vmprojectacr.azurecr.io/dragneelayanbasicazuredevopsproject
+          ports:
+          - containerPort: 5000
