@@ -16,35 +16,34 @@ pool:
 
 
 stages:
-- stage: SonarqubeSetup
-  displayName: SonarqubeSetup
+- stage: SonarQubeAnalysis
+  displayName: SonarQube Analysis
   jobs:
-  - job: SonarqubeSetup
-    displayName: SonarqubeSetup
+  - job: SonarQubeAnalysisJob
     steps:
     - task: SonarQubePrepare@7
       inputs:
         SonarQube: 'sonarqube-connection'
         scannerMode: 'cli'
+        cliScannerVersion: '1'
         configMode: 'manual'
-        cliProjectKey: 'my-flask-app'
-        cliProjectName: 'my-flask-app'
+        cliProjectKey: 'flask-app'
+        cliProjectName: 'flask-app'
         cliSources: '.'
 
+    - script:  |
+        pip install -r requirements.txt
+      displayName: 'Install Python Requirements'
 
-- stage: SonarqubeRunCodeAnalysis
-  dependsOn: SonarqubeSetup
-  condition: succeeded()
-  displayName: SonarqubeRunCodeAnalysis
-  jobs:
-  - job: SonarqubeRunCodeAnalysis
-    displayName: SonarqubeRunCodeAnalysis
-    steps:
-    - task: SonarQubeAnalyze@7
+    - task: SonarQubeAnalyze@7 
+    
+    - task: SonarQubePublish@7
+      inputs:
+        pollingTimeoutSec: '300'
 
 
 - stage: Build
-  dependsOn: SonarqubeRunCodeAnalysis
+  dependsOn: SonarQubeAnalysis
   condition: succeeded()
   displayName: Build image
   jobs:
