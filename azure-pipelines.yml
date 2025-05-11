@@ -33,6 +33,8 @@ stages:
 
 
 - stage: SonarqubeRunCodeAnalysis
+  dependsOn: SonarqubeSetup
+  condition: succeeded()
   displayName: SonarqubeRunCodeAnalysis
   jobs:
   - job: SonarqubeRunCodeAnalysis
@@ -44,6 +46,8 @@ stages:
 
 
 - stage: Build
+  dependsOn: SonarqubeRunCodeAnalysis
+  condition: succeeded()
   displayName: Build image
   jobs:
   - job: Build
@@ -59,6 +63,8 @@ stages:
 
 
 - stage: Push
+  dependsOn: Build
+  condition: succeeded()
   displayName: Push image
   jobs:
   - job: Push
